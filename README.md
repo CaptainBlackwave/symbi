@@ -575,6 +575,44 @@ LOG_LEVEL=info
 
 ---
 
+## Phase 6: Feature Completion
+
+SymbiLink Phase 6 adds production-ready capabilities while maintaining OpenClaw feature parity:
+
+### New Features
+
+| Feature | Description | Status |
+|---------|-------------|--------|
+| 🐳 **Docker Sandbox** | Isolated skill execution with resource limits | ✅ Complete |
+| ⏰ **Cron Scheduler** | Full 5-part cron expression support | ✅ Complete |
+| 🔐 **Tool Allowlist** | Session-based permission enforcement | ✅ Complete |
+| 🎤 **Voice Wake Word** | "Hey SymbiLink" voice activation | ✅ Complete |
+| 🎨 **Canvas Workspace** | Agent-driven visual interfaces | ✅ Complete |
+
+### Configuration Files
+
+```
+config/
+├── sandbox.yml     # Docker sandbox settings
+├── chronos.yml     # Cron scheduler settings
+├── security.yml    # Tool allowlist and permissions
+├── voice.yml       # Wake word and TTS settings
+└── canvas.yml      # Visual workspace settings
+```
+
+### New WebSocket API Methods
+
+```
+sandbox.status, sandbox.test
+cron.create, cron.list, cron.delete, cron.pause, cron.resume, cron.status
+permissions.check, permissions.audit, permissions.stats
+canvas.create, canvas.list, canvas.delete, canvas.push, canvas.update, canvas.remove, canvas.status
+```
+
+See [docs/PHASE6_IMPLEMENTATION_SUMMARY.md](docs/PHASE6_IMPLEMENTATION_SUMMARY.md) for complete details.
+
+---
+
 ## Documentation
 
 ### Core Documentation
@@ -586,6 +624,16 @@ LOG_LEVEL=info
 | [**SYMBIOTIC_PLANNING.md**](SYMBIOTIC_PLANNING.md) | Human-bot partnership architecture |
 | [**THREE_LAYERS_DESIGN.md**](THREE_LAYERS_DESIGN.md) | Temporal, Perception, Memory layers |
 | [**SKILL.md**](SKILL.md) | Agent capabilities and API reference |
+
+### Phase 6 Documentation
+
+| Document | Purpose |
+|----------|---------|
+| [**Security Guide**](docs/SECURITY_GUIDE.md) | Tool allowlist configuration |
+| [**Skill Development Guide**](docs/SKILL_DEVELOPMENT_GUIDE.md) | Sandbox requirements |
+| [**API Reference**](docs/API_REFERENCE.md) | New WebSocket methods |
+| [**Voice Setup Guide**](docs/VOICE_SETUP_GUIDE.md) | Wake word configuration |
+| [**Canvas Guide**](docs/CANVAS_GUIDE.md) | Visual workspace usage |
 
 ### API Endpoints
 

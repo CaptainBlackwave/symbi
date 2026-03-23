@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+
+# Genesis test artifacts
+.genesis-test/
+ABOUT-SYMBILINK.md
+EVOLUTION_ANALYSIS.md
+openclaw-readme.md
+PHASE1_COMMUNICATION_FOUNDATION.md
+PHASE2_EXTENSIBILITY.md
+PHASE3_SECURITY_POLISH.md
+PHASE4_COMPANION_APPS.md
+PHASE5_COMPLETION_SUMMARY.md
+PHASE5_DEVELOPER_EXPERIENCE.md
+SOUL_LAYER_DESIGN.md
+SURVIVAL_ANALYSIS.md
+SURVIVAL_TRACKER.md
+SYMBIOTIC_PLANNING.md
+THREE_LAYERS_DESIGN.md
+TYPESCRIPT_MIGRATION_PLAN.md
+TYPESCRIPT_MIGRATION_STATUS.md
+PHASE6_FEATURE_COMPLETION.md
+docs/PHASE6_IMPLEMENTATION_SUMMARY.md
+tests/phase1-integration.test.js
+tests/phase6-integration.test.js
