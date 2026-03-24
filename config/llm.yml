@@ -1,0 +1,31 @@
+# Offline LLM Configuration
+# Phase 12.2: Offline LLM Support
+
+llm:
+  enabled: true
+  
+  # Ollama configuration
+  ollama:
+    url: http://localhost:11434
+    defaultModel: llama3.2:3b
+    
+    # Recommended models to pre-download
+    models:
+      - llama3.2:3b
+      - nomic-embed-text
+      
+  # Cloud fallback (optional)
+  fallback:
+    enabled: false
+    provider: anthropic  # anthropic or openai
+    apiKey: $ANTHROPIC_API_KEY
+    
+  # Routing strategy
+  routing:
+    strategy: local-first  # local-first, cloud-first, hybrid
+    timeout: 30000
+    
+  # Model storage
+  storage:
+    path: ./data/models
+    maxSize: 50GB

@@ -1,0 +1,43 @@
+# RAG System Configuration
+# Phase 12.1: Local RAG System
+
+rag:
+  enabled: true
+  
+  # Vector database configuration
+  vectorDB:
+    type: local  # qdrant, chromadb, or local
+    url: http://localhost:6333  # Only for qdrant
+    collection: symbi-documents
+    
+  # Embedding model configuration
+  embedding:
+    model: nomic-embed-text  # Ollama model name
+    dimensions: 768
+    batchSize: 32
+    
+  # Document chunking
+  chunking:
+    strategy: paragraph  # fixed, semantic, or paragraph
+    chunkSize: 512
+    overlap: 50
+    
+  # Storage paths
+  storage:
+    documentsPath: ./data/rag/documents
+    indexPath: ./data/rag/index
+    
+  # Search defaults
+  search:
+    defaultLimit: 5
+    minScore: 0.5
+    
+  # Supported file types
+  supportedTypes:
+    - .txt
+    - .md
+    - .json
+    - .csv
+    - .html
+    - .xml
+    - .log

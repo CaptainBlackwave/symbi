@@ -1,0 +1,12 @@
+# Phase 10.2: Extensions Configuration
+# Configuration for the unified extensions system
+
+extensions:
+  # Path to extensions config file
+  configPath: ./extensions_config.json
+  
+  # Auto-migrate from YAML on startup
+  autoMigrate: true
+  
+  # Backup before migration
+  backupBeforeMigrate: true

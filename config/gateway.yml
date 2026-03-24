@@ -1,0 +1,39 @@
+# Phase 10.3: Gateway Configuration
+# Configuration for the REST API and WebSocket gateway
+
+gateway:
+  # HTTP/REST configuration
+  http:
+    enabled: true
+    port: 18789
+    host: 127.0.0.1
+    cors:
+      enabled: true
+      origins: 
+        - http://localhost:3000
+        - http://localhost:8080
+    
+    # File upload limits
+    upload:
+      maxFileSize: 10485760  # 10MB
+      allowedTypes:
+        - application/pdf
+        - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+        - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+        - application/vnd.openxmlformats-officedocument.presentationml.presentation
+        - text/plain
+        - text/markdown
+  
+  # WebSocket configuration
+  ws:
+    enabled: true
+    port: 18789  # Same port as HTTP
+    
+    # Connection settings
+    heartbeatInterval: 30000
+    maxConnections: 100
+  
+  # Authentication
+  auth:
+    enabled: false
+    # token: your-secret-token-here

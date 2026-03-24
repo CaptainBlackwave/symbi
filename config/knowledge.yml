@@ -1,0 +1,26 @@
+# Knowledge Base Configuration
+# Phase 12.3: Knowledge Base
+
+knowledge:
+  enabled: true
+  
+  # Kiwix integration for offline Wikipedia and references
+  kiwix:
+    enabled: true
+    url: http://localhost:8080
+    library: wikipedia_en_all
+    
+  # Collections for curated content
+  collections:
+    path: ./data/knowledge/collections
+    autoUpdate: true
+    
+  # Integration with other systems
+  integration:
+    ragEnabled: true
+    memoryEnabled: true
+    
+  # Storage
+  storage:
+    maxSize: 10GB
+    compression: true

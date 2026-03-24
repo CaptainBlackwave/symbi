@@ -21,6 +21,17 @@ skills:
     - ./skills/public
     - ./skills/custom
 
+  # Recursive skill discovery (Phase 11)
+  recursive:
+    enabled: true
+    # Maximum directory depth to scan
+    maxDepth: 5
+    # Patterns to exclude from scanning
+    excludePatterns:
+      - node_modules
+      - .git
+      - .DS_Store
+
   # Task analysis settings
   taskAnalysis:
     # Minimum score for skill matching (0-1)

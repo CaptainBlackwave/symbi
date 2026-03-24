@@ -1,0 +1,26 @@
+# Phase 10.1: Structured Memory Configuration
+# Configuration for the structured user context memory system
+
+memory:
+  structured:
+    enabled: true
+    
+    # Storage path for user context files
+    storagePath: ./data/memory
+    
+    # Extraction settings for LLM-based context extraction
+    extraction:
+      model: claude-3-haiku-20240307
+      maxTokens: 1000
+      temperature: 0
+    
+    # Debounce settings for batching updates
+    debounce:
+      enabled: true
+      waitMs: 5000
+    
+    # Context injection settings for system prompts
+    injection:
+      enabled: true
+      maxFacts: 5
+      minConfidence: 0.5
