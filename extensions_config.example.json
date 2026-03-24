@@ -1,0 +1,50 @@
+{
+  "mcpServers": {
+    "github": {
+      "enabled": true,
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_TOKEN": "$GITHUB_TOKEN"
+      }
+    },
+    "filesystem": {
+      "enabled": true,
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "./data"]
+    },
+    "secure-search": {
+      "enabled": false,
+      "transport": "http",
+      "url": "https://api.example.com/mcp",
+      "oauth": {
+        "enabled": true,
+        "token_url": "https://auth.example.com/oauth/token",
+        "grant_type": "client_credentials",
+        "client_id": "$MCP_CLIENT_ID",
+        "client_secret": "$MCP_CLIENT_SECRET"
+      }
+    }
+  },
+  "skills": {
+    "web-search": {
+      "enabled": true,
+      "priority": 1,
+      "autoLoad": true
+    },
+    "browser-automation": {
+      "enabled": true,
+      "priority": 2,
+      "autoLoad": false
+    },
+    "pdf-processing": {
+      "enabled": true,
+      "priority": 3,
+      "autoLoad": false
+    }
+  },
+  "version": "1.0.0",
+  "lastUpdated": 1640000000000
+}
