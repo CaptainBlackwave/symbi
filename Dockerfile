@@ -30,7 +30,7 @@ RUN apk add --no-cache curl
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && \
-    adduser -S symlink -u 1001
+    adduser -S symbi -u 1001
 
 WORKDIR /app
 
@@ -45,10 +45,10 @@ COPY --from=builder /app/dist ./dist
 
 # Create necessary directories
 RUN mkdir -p data/memory data/sessions logs && \
-    chown -R symlink:nodejs /app
+    chown -R symbi:nodejs /app
 
 # Switch to non-root user
-USER symlink
+USER symbi
 
 # Expose port
 EXPOSE 3000

@@ -1,0 +1,1 @@
+const fs=require("fs");const L=[];L.push("import axios from \u0027axios\u0027;");L.push("import { Task } from \u0027../types/supervisor\u0027;");L.push("import { AgentCapabilities } from \u0027../types/network\u0027;");L.push("");fs.writeFileSync("src/supervisor/router.ts",L.join("\n"))

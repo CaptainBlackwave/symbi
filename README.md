@@ -310,7 +310,7 @@ A crypto-signed agreement that binds both parties:
 {
   parties: {
     human: { identifier: "0x...", role: "PROTECTOR_AND_BENEFICIARY" },
-    bot: { identifier: "symlink", role: "PRODUCER_AND_PROTECTED" }
+    bot: { identifier: "symbi", role: "PRODUCER_AND_PROTECTED" }
   },
   terms: {
     humanPromises: [

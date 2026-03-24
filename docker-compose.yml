@@ -11,7 +11,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: symlink-app
+    container_name: symbi-app
     restart: unless-stopped
     ports:
       - "${PORT:-3000}:3000"
@@ -33,7 +33,7 @@ services:
     depends_on:
       - redis
     networks:
-      - symlink-network
+      - symbi-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 30s
@@ -46,14 +46,14 @@ services:
   # ============================================
   redis:
     image: redis:7-alpine
-    container_name: symlink-redis
+    container_name: symbi-redis
     restart: unless-stopped
     ports:
       - "${REDIS_PORT:-6379}:6379"
     volumes:
       - redis-data:/data
     networks:
-      - symlink-network
+      - symbi-network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -66,7 +66,7 @@ services:
   # ============================================
   prometheus:
     image: prom/prometheus:v2.48.0
-    container_name: symlink-prometheus
+    container_name: symbi-prometheus
     restart: unless-stopped
     ports:
       - "${PROMETHEUS_PORT:-9090}:9090"
@@ -74,7 +74,7 @@ services:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus-data:/prometheus
     networks:
-      - symlink-network
+      - symbi-network
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -87,7 +87,7 @@ services:
   # ============================================
   grafana:
     image: grafana/grafana:10.2.0
-    container_name: symlink-grafana
+    container_name: symbi-grafana
     restart: unless-stopped
     ports:
       - "${GRAFANA_PORT:-3001}:3000"
@@ -99,7 +99,7 @@ services:
       - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
       - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
     networks:
-      - symlink-network
+      - symbi-network
     depends_on:
       - prometheus
 
@@ -108,7 +108,7 @@ services:
   # ============================================
   loki:
     image: grafana/loki:2.9.0
-    container_name: symlink-loki
+    container_name: symbi-loki
     restart: unless-stopped
     ports:
       - "${LOKI_PORT:-3100}:3100"
@@ -116,7 +116,7 @@ services:
       - ./monitoring/loki.yml:/etc/loki/local-config.yaml:ro
       - loki-data:/loki
     networks:
-      - symlink-network
+      - symbi-network
     command: -config.file=/etc/loki/local-config.yaml
 
   # ============================================
@@ -124,14 +124,14 @@ services:
   # ============================================
   promtail:
     image: grafana/promtail:2.9.0
-    container_name: symlink-promtail
+    container_name: symbi-promtail
     restart: unless-stopped
     volumes:
       - ./monitoring/promtail.yml:/etc/promtail/config.yml:ro
-      - ./logs:/var/log/symlink:ro
+      - ./logs:/var/log/symbi:ro
       - /var/log:/var/log:ro
     networks:
-      - symlink-network
+      - symbi-network
     command: -config.file=/etc/promtail/config.yml
 
   # ============================================
@@ -139,7 +139,7 @@ services:
   # ============================================
   nginx:
     image: nginx:alpine
-    container_name: symlink-nginx
+    container_name: symbi-nginx
     restart: unless-stopped
     ports:
       - "80:80"
@@ -150,7 +150,7 @@ services:
       - ./src/ui/webchat:/usr/share/nginx/html/webchat:ro
       - ./src/ui/dashboard:/usr/share/nginx/html/dashboard:ro
     networks:
-      - symlink-network
+      - symbi-network
     depends_on:
       - app
     healthcheck:
@@ -164,7 +164,7 @@ services:
   # ============================================
   watchtower:
     image: containrrr/watchtower
-    container_name: symlink-watchtower
+    container_name: symbi-watchtower
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -172,7 +172,7 @@ services:
       - WATCHTOWER_CLEANUP=true
       - WATCHTOWER_POLL_INTERVAL=3600
     networks:
-      - symlink-network
+      - symbi-network
 
 volumes:
   redis-data:
@@ -185,5 +185,5 @@ volumes:
     driver: local
 
 networks:
-  symlink-network:
+  symbi-network:
     driver: bridge
