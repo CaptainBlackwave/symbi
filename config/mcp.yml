@@ -1,0 +1,55 @@
+# Phase 7: MCP Server Configuration
+# Manages MCP server connections with OAuth support
+
+mcp:
+  # Enable/disable MCP integration
+  enabled: true
+
+  # Retry configuration for failed connections
+  retry:
+    maxAttempts: 3
+    backoffMs: 1000
+
+  # Token cache settings (for OAuth tokens)
+  tokenCache:
+    enabled: true
+    path: ./data/mcp-tokens.json
+
+  # Path to MCP servers configuration file
+  serversConfigPath: ./config/mcp-servers.yml
+
+  # Default timeout for MCP operations (ms)
+  defaultTimeout: 30000
+
+  # Enable automatic reconnection on disconnect
+  autoReconnect: true
+
+  # Maximum concurrent MCP server connections
+  maxConnections: 10
+
+# Example MCP servers configuration (create separate mcp-servers.yml)
+# servers:
+#   - name: browser
+#     transport: http
+#     url: http://localhost:3001
+#     oauth:
+#       type: client_credentials
+#       tokenUrl: http://localhost:3001/oauth/token
+#       clientId: symbi
+#       clientSecret: ${MCP_BROWSER_SECRET}
+#       scopes: ["read", "write"]
+#
+#   - name: filesystem
+#     transport: stdio
+#     command: npx
+#     args: ["-y", "@modelcontextprotocol/server-filesystem", "/workspace"]
+#
+#   - name: github
+#     transport: http
+#     url: http://localhost:3002
+#     oauth:
+#       type: refresh_token
+#       tokenUrl: http://localhost:3002/oauth/token
+#       clientId: symbi
+#       clientSecret: ${MCP_GITHUB_SECRET}
+#       refreshToken: ${MCP_GITHUB_REFRESH_TOKEN}

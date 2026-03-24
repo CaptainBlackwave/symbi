@@ -1,0 +1,33 @@
+# Phase 7: Progressive Skill Loading Configuration
+# Controls on-demand skill loading and context window optimization
+
+skills:
+  # Progressive loading settings
+  progressive:
+    enabled: true
+    # Maximum tokens for loaded skills (reduces context window usage)
+    maxTokenBudget: 8000
+    # Eviction strategy: lru (least recently used), lfu (least frequently used), priority
+    evictionStrategy: lru
+
+  # Skills to load automatically at startup (core skills only)
+  autoLoad:
+    - web-search
+    - memory
+    - file-operations
+
+  # Skill search paths
+  paths:
+    - ./skills/public
+    - ./skills/custom
+
+  # Task analysis settings
+  taskAnalysis:
+    # Minimum score for skill matching (0-1)
+    minMatchScore: 0.3
+    # Maximum skills to load per task
+    maxSkillsPerTask: 5
+    # Enable keyword-based matching
+    keywordMatching: true
+    # Enable semantic matching (requires LLM)
+    semanticMatching: false
