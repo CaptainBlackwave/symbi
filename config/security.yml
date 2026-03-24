@@ -1,0 +1,54 @@
+# Security Configuration
+# Tool allowlist and session permissions
+
+security:
+  # Tool allowlist enforcement
+  toolAllowlist:
+    enabled: true
+    mode: "strict"  # "strict" or "permissive"
+    logAllCalls: true
+  
+  # Session type defaults
+  sessionDefaults:
+    # Main session - full access
+    main:
+      shell: true
+      filesystem: true
+      network: true
+      browser: true
+      skills: true
+    
+    # Group session - restricted access
+    group:
+      shell: false
+      filesystem: false
+      network: true
+      browser: true
+      skills: true
+    
+    # DM session - moderate access
+    dm:
+      shell: false
+      filesystem: true
+      network: true
+      browser: true
+      skills: true
+    
+    # Guest session - minimal access
+    guest:
+      shell: false
+      filesystem: false
+      network: false
+      browser: false
+      skills: false
+  
+  # Rate limiting
+  rateLimiting:
+    enabled: true
+    defaultLimit: 60  # Calls per minute
+    
+  # Audit logging
+  audit:
+    enabled: true
+    maxEntries: 10000
+    logDeniedOnly: false

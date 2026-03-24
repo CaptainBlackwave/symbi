@@ -1,0 +1,32 @@
+# Voice Configuration
+# Wake word detection, STT, and TTS settings
+
+voice:
+  # Wake word detection
+  wakeWord:
+    enabled: true
+    model: "./models/hey-symbilink.onnx"
+    sensitivity: 0.7
+    keywords:
+      - "hey symbilink"
+      - "ok symbilink"
+  
+  # Text-to-Speech
+  tts:
+    provider: "browser"  # "browser", "elevenlabs", or "local"
+    voice: "default"
+    rate: 1.0
+    pitch: 1.0
+  
+  # Speech-to-Text
+  stt:
+    provider: "browser"  # "browser" or "whisper"
+    model: "base"
+    language: "en-US"
+  
+  # Audio settings
+  audio:
+    sampleRate: 16000
+    frameLength: 512
+    echoCancellation: true
+    noiseSuppression: true

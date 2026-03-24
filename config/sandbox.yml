@@ -1,0 +1,38 @@
+# Docker Sandbox Configuration
+# Provides isolated execution environment for untrusted skills
+
+sandbox:
+  enabled: true
+  
+  # Default resource limits
+  defaultMemoryLimit: "256m"
+  defaultCpuLimit: 0.5
+  
+  # Execution timeout in milliseconds
+  defaultTimeout: 30000
+  
+  # Network mode: "none" (isolated) or "bridge" (limited network)
+  networkMode: "none"
+  
+  # Whitelisted network hosts (only used when networkMode is "bridge")
+  allowedHosts:
+    - "api.clawhub.com"
+    - "*.githubusercontent.com"
+    - "registry.npmjs.org"
+  
+  # Container lifecycle management
+  cleanup:
+    maxContainers: 10
+    maxAge: "1h"  # Maximum container age before cleanup
+  
+  # Security settings
+  security:
+    readOnlyRootFilesystem: true
+    noNewPrivileges: true
+    dropCapabilities: "ALL"
+  
+  # Resource limits
+  limits:
+    maxProcesses: 256
+    maxOpenFiles: 1024
+    tmpfsSize: "64m"

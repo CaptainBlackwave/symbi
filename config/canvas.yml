@@ -1,0 +1,42 @@
+# Canvas Configuration
+# Visual workspace settings
+
+canvas:
+  enabled: true
+  
+  # WebSocket server settings
+  port: 18790
+  host: "127.0.0.1"
+  
+  # Limits
+  maxCanvases: 10
+  maxContentSize: "1mb"
+  
+  # Allowed origins for WebSocket connections
+  allowedOrigins:
+    - "http://localhost:18789"
+    - "https://*.tailscale.com"
+  
+  # Content rendering
+  rendering:
+    # Enable sandboxed JavaScript execution
+    sandboxedEval: true
+    
+    # Maximum content dimensions
+    maxWidth: 1920
+    maxHeight: 1080
+    
+    # Content types allowed
+    allowedTypes:
+      - "html"
+      - "markdown"
+      - "chart"
+      - "code"
+  
+  # Security
+  security:
+    # Restrict code evaluation to safe expressions only
+    safeEvalOnly: true
+    
+    # Maximum code length for evaluation
+    maxCodeLength: 1000

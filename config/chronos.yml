@@ -1,0 +1,23 @@
+# Chronos Configuration
+# Cron scheduler and job management
+
+chronos:
+  enabled: true
+  
+  # Job persistence
+  store: "file"
+  storePath: "./data/jobs.json"
+  
+  # Limits
+  maxJobs: 100
+  defaultTimeout: 30000
+  
+  # Scheduler settings
+  scheduler:
+    checkInterval: 60000  # Check for due jobs every minute
+    
+  # Job execution
+  execution:
+    maxConcurrent: 5
+    retryAttempts: 3
+    retryDelay: 5000

@@ -1,0 +1,52 @@
+# Phase 8: Middleware Configuration
+# Middleware chain settings for the agent
+
+middleware:
+  enabled: true
+
+  # Middleware order and settings
+  middlewares:
+    ThreadDataMiddleware:
+      enabled: true
+      order: 1
+
+    UploadsMiddleware:
+      enabled: true
+      order: 2
+
+    SandboxMiddleware:
+      enabled: true
+      order: 3
+
+    SummarizationMiddleware:
+      enabled: true
+      order: 4
+      options:
+        maxTokens: 8000
+        threshold: 0.8  # Summarize when 80% of limit reached
+        preserveRecent: 5
+        summarizeSystem: false
+
+    TodoListMiddleware:
+      enabled: false  # Optional
+      order: 5
+
+    TitleMiddleware:
+      enabled: true
+      order: 6
+      options:
+        generateAfter: 1  # Generate title after first exchange
+
+    MemoryMiddleware:
+      enabled: true
+      order: 7
+      options:
+        debounceMs: 5000
+
+    ViewImageMiddleware:
+      enabled: true
+      order: 8
+
+    ClarificationMiddleware:
+      enabled: true
+      order: 9  # Must be last

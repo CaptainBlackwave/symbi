@@ -1,0 +1,236 @@
+# SymbiLink Kubernetes Deployment
+# Production-ready deployment with health checks and resource limits
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: symbi
+  namespace: symbi
+  labels:
+    app: symbi
+    version: v3.0.0
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: symbi
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: symbi
+        version: v3.0.0
+    spec:
+      serviceAccountName: symbi
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        fsGroup: 1001
+      containers:
+        - name: symbi
+          image: ghcr.io/your-org/symbi:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "3000"
+            - name: REDIS_URL
+              value: "redis://symbi-redis:6379"
+            - name: ANTHROPIC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: symbi-secrets
+                  key: anthropic-api-key
+            - name: TELEGRAM_BOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: symbi-secrets
+                  key: telegram-bot-token
+                  optional: true
+            - name: DISCORD_BOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: symbi-secrets
+                  key: discord-bot-token
+                  optional: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+            - name: logs
+              mountPath: /app/logs
+            - name: config
+              mountPath: /app/symbilink.config.json
+              subPath: symbilink.config.json
+              readOnly: true
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: symbi-data
+        - name: logs
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: symbi-config
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: symbi
+  namespace: symbi
+  labels:
+    app: symbi
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: symbi
+---
+# Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: symbi
+  namespace: symbi
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - symbi.example.com
+      secretName: symbi-tls
+  rules:
+    - host: symbi.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: symbi
+                port:
+                  number: 3000
+---
+# ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: symbi-config
+  namespace: symbi
+data:
+  symbilink.config.json: |
+    {
+      "name": "symbi",
+      "version": "3.0.0",
+      "mode": "hybrid",
+      "channels": {
+        "webchat": { "enabled": true },
+        "telegram": { "enabled": true },
+        "discord": { "enabled": false }
+      },
+      "skills": {
+        "autoDiscover": true,
+        "directory": "./src/skills"
+      },
+      "monitoring": {
+        "enabled": true,
+        "metricsPort": 9090
+      }
+    }
+---
+# Secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: symbi-secrets
+  namespace: symbi
+type: Opaque
+stringData:
+  anthropic-api-key: "your-api-key-here"
+  telegram-bot-token: ""
+  discord-bot-token: ""
+---
+# ServiceAccount
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: symbi
+  namespace: symbi
+---
+# PersistentVolumeClaim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: symbi-data
+  namespace: symbi
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+# HorizontalPodAutoscaler
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: symbi
+  namespace: symbi
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: symbi
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
